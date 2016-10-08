@@ -1,0 +1,109 @@
+<script>
+
+  /**
+   * Set of base entity helpers which can be applied to (almost)
+   * any EVRYTHNG entity.
+   *
+   * Allows to handle computed bindings/properties on elements dealing
+   * wih data structures from EVRYTHNG gracefully.
+   *
+   * > All methods in this behavior are private, since they're not supposed
+   * to be used by a higher level elements, but used strictly in the
+   * views themselves.
+   *
+   * You probably noticed "almost" at the top of description. That's because behavior
+   * of entities may slightly vary from case to case, but in general it follows the same pattern
+   *
+   * ```javascript
+   * {
+   *   name: String,
+   *   description: String,
+   *   tags: String[],
+   *   identifiers: {
+   *     key: String
+   *   },
+   *   customFields: {
+   *     key: * // Object|Array|Primitive
+   *   }
+   * }
+   * ```
+   *
+   * @polymerBehavior EvtElements.behaviors.entity
+   */
+  EvtElements.behaviors.entityImpl = {
+
+
+    /**
+     * Returns true if attached entity has any identifier
+     *
+     * @returns {Boolean}
+     * @private
+     */
+    _hasIdentifiers: function () {
+      return !this._isEmpty(this.name + '.identifiers');
+    },
+
+    /**
+     * Returns true if attached entity has any custom field
+     *
+     * @returns {Boolean}
+     * @private
+     */
+    _hasCustomFields: function () {
+      return !this._isEmpty(this.name + '.customFields');
+    },
+
+    /**
+     * Returns true if attached entity has any tags
+     * @returns {Boolean}
+     * @private
+     */
+    _hasTags: function() {
+      return !this._isEmpty(this.name + '.tags');
+    },
+
+    /**
+     * Lists entities identifiers property as named values list
+     * Useful for creating dom-repeat templates
+     *
+     * @returns {Object[]} @see #_abstractListProperty
+     * @private
+     */
+    _listIdentifiers: function () {
+      return this._abstractListProperty(this.get(this.name), 'identifiers');
+    },
+
+    /**
+     * Lists entities customFields property as named values list
+     * Useful for creating dom-repeat templates
+     *
+     * @returns {Object[]} @see #_abstractListProperty
+     * @private
+     */
+    _listCustomFields: function () {
+      return this._abstractListProperty(this.get(this.name), 'customFields');
+    },
+
+    /**
+     * Lists property on given object as named values list
+     *
+     * @param {Object} obj Source to take property from
+     * @param {String} prop name of property
+     * @returns {Object[]}
+     * @private
+     */
+    _abstractListProperty: function (obj, prop) {
+      var prop = (obj && obj[prop]) || {};
+
+      return Object.keys(prop).map(function (field) {
+        return {
+          name: field,
+          value: prop[field]
+        }
+      });
+    }
+
+  };
+
+  EvtElements.behaviors.entity = [EvtElements.behaviors.entityImpl, EvtElements.behaviors.objectProperties];
+</script>

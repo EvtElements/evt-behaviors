@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>evt-entity</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="test-elements.html">
+</head>
+<body>
+
+<test-fixture id="entity">
+  <template>
+    <evt-entity></evt-entity>
+  </template>
+</test-fixture>
+
+<script>
+  suite('evt-entity', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('entity');
+    });
+
+    test('_hasIdentifiers', () => {
+      assert.equal(element._hasIdentifiers(), false);
+
+      element.entity = {
+        identifiers: {
+          simple_id: '123X-GGF'
+        }
+      };
+      assert.equal(element._hasIdentifiers(), true);
+
+      element.entity.identifiers = {};
+      assert.equal(element._hasIdentifiers(), false);
+    });
+
+    test('_hasCustomFields', () => {
+      assert.equal(element._hasCustomFields(), false);
+
+      element.entity = {
+        customFields: {
+          field: 'value'
+        }
+      };
+      assert.equal(element._hasCustomFields(), true);
+
+      element.entity.customFields = {};
+      assert.equal(element._hasCustomFields(), false);
+    });
+
+    test('_hasTags', () => {
+      assert.equal(element._hasTags(), false);
+
+      element.entity = {
+        tags: ['test', 'element']
+      };
+      assert.equal(element._hasTags(), true);
+
+      element.entity.tags = [];
+      assert.equal(element._hasTags(), false);
+    });
+
+    test('_abstractListProperty', () => {
+      assert.deepEqual(element._abstractListProperty({}, 'prop'), []);
+      assert.deepEqual(element._abstractListProperty({
+        prop: {
+          number: 1,
+          bool: true
+        }
+      }, 'prop'), [{
+        name: 'number',
+        value: 1
+      }, {
+        name: 'bool',
+        value: true
+      }]);
+    });
+
+    test('_listIdentifiers', () => {
+      expect(element._listIdentifiers()).deep.equal([]);
+      element.entity = {
+        identifiers: {
+          simple_id: '123X-GGF'
+        }
+      };
+      expect(element._listIdentifiers()).deep.equal([{
+        name: 'simple_id',
+        value: '123X-GGF'
+      }]);
+    });
+
+    test('_listCustomFields', () => {
+      expect(element._listCustomFields()).deep.equal([]);
+      element.entity = {
+        customFields: {
+          weight: '22',
+          length: 13
+        }
+      };
+      expect(element._listCustomFields()).deep.equal([{
+        name: 'weight',
+        value: '22'
+      }, {
+        name: 'length',
+        value: 13
+      }]);
+    });
+  });
+</script>
+</body>
+</html>

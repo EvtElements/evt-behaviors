@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>evt-clear</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../evt-behaviors.html">
+  <link rel="import" href="test-elements.html">
+</head>
+<body>
+
+<test-fixture id="toaster">
+  <template>
+    <evt-toaster></evt-toaster>
+  </template>
+</test-fixture>
+
+<script>
+  suite('evt-toaster', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('toaster');
+    });
+
+    test('showToast', () => {
+      let toast;
+
+      expect(element.showToast).to.be.a('function');
+      toast = document.body.querySelector('paper-toast');
+      expect(toast).to.be.null;
+
+      element.showToast('text');
+      toast = document.body.querySelector('paper-toast');
+
+      expect(toast).to.be.an.instanceOf(HTMLElement);
+      expect(toast.opened).to.be.true;
+      expect(toast.text).to.equal('text');
+
+      element.showToast('multiple', 'args');
+      expect(toast.text).to.equal('multiple args');
+    });
+  });
+</script>
+</body>
+</html>

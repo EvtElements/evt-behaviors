@@ -1,0 +1,47 @@
+<link rel="import" href="../paper-toast/paper-toast.html">
+
+<script>
+  (function() {
+    var toast;
+
+    /**
+     * Makes any element a "toaster", adding showToast(String, String, ...) method.
+     * Reuses the same toast element for all the 'toasters' with this behavior.
+     * Toast itself appended to document.body, so does not collide with app-layout elements.
+     *
+     * @type {Object}
+     * @polymerBehavior
+     */
+    EvtElements.behaviors.toaster = {
+
+      /**
+       * Shows the toast with given text. Lazily creates the toast element
+       * to be shared between all elements using this behavior.
+       *
+       * Could take 1+ string arguments, in the same way it's done
+       * in console.log.
+       *
+       * @param {String} text
+       */
+      showToast: function (text) {
+        if (!toast) {
+          createToast();
+        }
+
+        toast.text = Array.prototype.slice.call(arguments).join(' ');
+        toast.open();
+      }
+    };
+
+    ////////////////////////////////////////////////////
+
+    /**
+     * Create simple reusable toast for all components with
+     * this behavior
+     */
+    function createToast() {
+      toast = document.createElement('paper-toast');
+      Polymer.dom(document.body).appendChild(toast);
+    }
+  })();
+</script>

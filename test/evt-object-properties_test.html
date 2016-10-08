@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>evt-object-properties</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../evt-behaviors.html">
+  <link rel="import" href="test-elements.html">
+</head>
+<body>
+
+  <test-fixture id="objectProperties">
+    <template>
+      <evt-object-properties></evt-object-properties>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('evt-object-properties', () => {
+      let element;
+
+      setup(() => {
+        element = fixture('objectProperties');
+      });
+
+      test('_typ', () => {
+        assert.equal(element._typ(''), 'string');
+        assert.equal(element._typ(0), 'number');
+        assert.equal(element._typ(false), 'boolean');
+        assert.equal(element._typ(/s/ig), 'regexp');
+        assert.equal(element._typ({}), 'object');
+        assert.equal(element._typ([]), 'array');
+        assert.equal(element._typ(() => {}), 'function');
+      });
+
+      test('_isEmpty', () => {
+        element.undefined = undefined;
+        element.empty = {};
+        element.filled = { prop: 'value' };
+        element.emptyArray = [];
+        element.filledArray = [1, 2, 3];
+
+        assert.equal(element._isEmpty('undefined'), true);
+        assert.equal(element._isEmpty('empty'), true);
+        assert.equal(element._isEmpty('filled'), false);
+        assert.equal(element._isEmpty('emptyArray'), true);
+        assert.equal(element._isEmpty('filledArray'), false);
+      });
+
+    });
+  </script>
+</body>
+</html>

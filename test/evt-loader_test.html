@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>evt-clear</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../evt-behaviors.html">
+  <link rel="import" href="test-elements.html">
+</head>
+<body>
+
+<test-fixture id="loader">
+  <template>
+    <evt-loader></evt-loader>
+  </template>
+</test-fixture>
+
+<script>
+  suite('evt-loader', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('loader');
+    });
+
+    test('loading state', () => {
+      expect(element.spinner).to.be.undefined;
+      element.loading = true;
+
+      expect(element.spinner).to.be.an.instanceOf(HTMLElement);
+      expect(element.spinner.active).to.be.true;
+
+      element.loading = false;
+
+      expect(element.spinner).to.be.an.instanceOf(HTMLElement);
+      expect(element.spinner.active).to.be.false;
+    });
+
+    test('loader container', () => {
+      let selector = '#container';
+      element._loaderContainer = selector;
+
+      expect(element.spinner).to.be.undefined;
+
+      element.loading = true;
+
+      expect(element.spinner).to.be.an.instanceOf(HTMLElement);
+      expect(element.spinner.active).to.be.true;
+      expect(element.spinner.parentNode).to.equal(element.$$(selector));
+      expect(element._loaderContainer).to.equal(element.$$(selector));
+    });
+  });
+</script>
+</body>
+</html>
