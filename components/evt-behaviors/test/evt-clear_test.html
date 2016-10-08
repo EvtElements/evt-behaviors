@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>evt-clear</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../evt-behaviors.html">
+  <link rel="import" href="test-elements.html">
+</head>
+<body>
+
+<test-fixture id="clear">
+  <template>
+    <evt-clear></evt-clear>
+  </template>
+</test-fixture>
+
+<script>
+  suite('evt-clear', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('clear');
+    });
+
+    test('clear', () => {
+      assert.equal(element.$.idSelector.children.length, 3);
+      element.clear('idSelector');
+      assert.equal(element.$.idSelector.children.length, 0);
+
+      assert.equal(element.$$('.class-selector').children.length, 3);
+      element.clear('.class-selector');
+      assert.equal(element.$$('.class-selector').children.length, 0);
+    });
+  });
+</script>
+</body>
+</html>

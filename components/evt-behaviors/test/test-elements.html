@@ -1,0 +1,74 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../evt-behaviors.html">
+
+<script>
+  Polymer({
+    is: 'evt-object-properties',
+
+    behaviors: [
+      EvtElements.behaviors.objectProperties
+    ]
+  });
+</script>
+
+<script>
+  Polymer({
+    is: 'evt-entity',
+
+    properties: {
+      name: {
+        type: String,
+        value: 'entity'
+      }
+    },
+
+    behaviors: [
+      EvtElements.behaviors.entity
+    ]
+  });
+</script>
+
+<dom-module id="evt-clear">
+  <template>
+    <div id="idSelector">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="class-selector">
+      <span></span><span></span><span></span>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'evt-clear',
+
+      behaviors: [
+        EvtElements.behaviors.clear
+      ]
+    });
+  </script>
+</dom-module>
+
+<dom-module id="evt-loader">
+  <template>
+    <container id="container"></container>
+  </template>
+  <script>
+    Polymer({
+      is: 'evt-loader',
+
+      behaviors: [
+        EvtElements.behaviors.loader
+      ]
+    });
+  </script>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'evt-toaster',
+
+    behaviors: [
+      EvtElements.behaviors.toaster
+    ]
+  });
+</script>
